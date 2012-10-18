@@ -20,6 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="PuzzleActivity"></activity>
+        <activity android:name="FlipActivity"></activity>
+        <activity android:name="PuzzleBack"></activity>
+        <activity android:name="Count"></activity>
     </application>
 
 </manifest>

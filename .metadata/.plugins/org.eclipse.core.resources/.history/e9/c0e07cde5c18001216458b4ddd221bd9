@@ -1,0 +1,191 @@
+package com.example.newapp;
+
+import java.util.Random;
+
+import android.app.Activity;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.os.SystemClock;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.AccelerateInterpolator;
+import android.widget.Chronometer;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
+
+
+public class FlipActivity extends Activity implements OnClickListener{
+	
+	ImageView[][] cards, backSide;
+	int count_y= 3, count_x = 4;
+	int size = 100;
+	RelativeLayout myLayout;
+	boolean isFirstImage[] = new boolean[50];
+	int ident = 0;
+	ImageView card1Front, card2Front, card1Back, card2Back, im1, im2;
+	boolean opencount = true;
+	int firstIdent;
+	
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.flip);
+        
+        myLayout = (RelativeLayout) findViewById(R.id.Rlay);
+        myLayout.setBackgroundColor(Color.BLACK);
+        RelativeLayout.LayoutParams cardParam[][] = new RelativeLayout.LayoutParams[count_x][count_y];
+        RelativeLayout cardBox[][] = new RelativeLayout[count_x][count_y];
+        cards = new ImageView[count_x][count_y];
+        backSide = new ImageView[count_x][count_y];
+        int inst_x = 50;
+        int x=50, y=50;
+        int id = 0;
+        for(int i=1; i<=count_x*count_y; i++)
+        	isFirstImage[i] = true;
+        for(int i=0; i<count_x; i++)
+        {
+        	for(int j=0; j<count_y; j++)
+        	{
+        		id++;
+        		cardParam[i][j] = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        		cardParam[i][j].width = size;
+        		cardParam[i][j].height = size;
+        		cardParam[i][j].leftMargin = x;
+        		cardParam[i][j].topMargin = y;
+        		cardBox[i][j] = new RelativeLayout(this);
+        		myLayout.addView(cardBox[i][j]);
+        		cardBox[i][j].addView(cards[i][j] = new ImageView(this),cardParam[i][j]);
+        		cardBox[i][j].addView(backSide[i][j] = new ImageView(this),cardParam[i][j]);
+        		cards[i][j].setBackgroundColor(Color.GREEN);
+        		backSide[i][j].setBackgroundColor(Color.RED);
+        		cards[i][j].setId(id);
+        		backSide[i][j].setId(id*100);
+        		cards[i][j].setVisibility(View.GONE);
+        		backSide[i][j].bringToFront();
+        		cards[i][j].setOnClickListener(this);
+        		backSide[i][j].setOnClickListener(this);
+        		x += size + 5;
+        	}
+        	y+=size+5;
+        	x = inst_x;
+        }
+        int i = 1, z=1;
+        
+        Random r = new Random();
+        while (i<=count_x*count_y)
+        {
+        	int q=0,w=0;
+        	while(cards[q][w].getContentDescription()!=null)
+        	{
+        		q = r.nextInt(count_x);
+        		w = r.nextInt(count_y);
+        	}
+        	cards[q][w].setContentDescription(String.valueOf(z));
+        	if ((i % 2)!=0)
+        		z++;
+        	i++;
+        }
+    }
+    
+  
+    
+    public void onClick(View view) {
+    	ident = view.getId();
+    	if (ident>=100) 
+    		ident = (int) ident/100;
+    	im1 = (ImageView) findViewById(ident);
+		im2 = (ImageView) findViewById(ident*100);
+    	im1.setClickable(false);
+    	im2.setClickable(false);
+    	
+        if (opencount) 
+        {
+        	isFirstImage[ident] = false;
+        	opencount = false;
+        	applyRotation(im1, im2, 0, -90);
+        	firstIdent = ident;
+        	card1Front = im1;
+        	card1Back = im2;
+         
+        } else 
+        {
+        	final Chronometer myChronometer = new Chronometer(this);
+        	isFirstImage[ident] = false;
+        	opencount = true;
+        	applyRotation(im1, im2, 0, -90);
+        	isFirstImage[ident] = true;
+        	isFirstImage[firstIdent] = true;
+        	myChronometer.setBase(SystemClock.elapsedRealtime());
+        	Chronometer.OnChronometerTickListener listen = new Chronometer.OnChronometerTickListener() {
+    			public void onChronometerTick(Chronometer chronometer) {
+    				long myElapsedMillis = SystemClock.elapsedRealtime()
+    						- myChronometer.getBase();
+    				//if (myElapsedMillis >= 2000)
+    				{
+    					applyRotation(card1Front, card1Back, 0, 90);
+            	    	applyRotation(im1, im2, 0, 90);
+            	    	myChronometer.stop();
+    				}
+    			}
+    		};
+        	myChronometer.setOnChronometerTickListener(listen);
+        	myChronometer.start();
+
+        }
+    	    	im1.setClickable(true);
+    	    	im2.setClickable(true);
+        }
+    
+    public void applyRotation(ImageView image1, ImageView image2, float start, float end) {
+    	// Find the center of image
+    	final float centerX = size / 2;
+    	final float centerY = size / 2;
+    	 
+    	// Create a new 3D rotation with the supplied parameter
+    	// The animation listener is used to trigger the next animation
+    	final Flip3dAnimation rotation =
+    	new Flip3dAnimation(start, end, centerX, centerY);
+    	rotation.setDuration(200);
+    	rotation.setFillAfter(true);
+    	rotation.setInterpolator(new AccelerateInterpolator());
+    	rotation.setAnimationListener(new DisplayNextView(isFirstImage[ident], image1, image2, size));
+    	 
+    	if (isFirstImage[ident])
+    	{
+    	image1.startAnimation(rotation);
+    	} else {
+    	image2.startAnimation(rotation);
+    	}
+    	 
+    	}
+}
+
+/*
+public synchronized void onClick(View view) {
+	Timer timer2 = new Timer();
+	ident = view.getId();
+	if (ident>=100) 
+		ident = (int) ident/100;
+	final ImageView im1 = (ImageView) findViewById(ident);
+	final ImageView im2 = (ImageView) findViewById(ident*100);
+	im1.setClickable(false);
+	im2.setClickable(false);
+    if (isFirstImage[ident]) {
+    	isFirstImage[ident] = false;
+    applyRotation(im1, im2, 0, -90);
+     
+    } else {
+    	isFirstImage[ident] = true;
+    	applyRotation(im1, im2, 0, 90);
+    }
+    
+    TimerTask task = new TimerTask() {
+	    public void run()
+	    {
+	    	im1.setClickable(true);
+	    	im2.setClickable(true);
+	    }
+	  };
+	  timer2.schedule( task, 200 );
+    }*/

@@ -1,54 +1,30 @@
 package com.example.newapp;
 
 import android.app.Activity;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
+import android.view.View.OnClickListener;
+import android.widget.TextView;
 
-public class MainActivity extends Activity implements OnTouchListener {
-
-	ImageView image,box;
-	RelativeLayout myLayout;
-	RelativeLayout.LayoutParams lp;
-	int x0,y0;
-	int x_cord, y_cord;
+public class MainActivity extends Activity implements OnClickListener {
+	
+	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        myLayout = (RelativeLayout) findViewById(R.id.Rlay);
-        box = (ImageView) findViewById(R.id.img2);
-        image = (ImageView) findViewById(R.id.img1);
-        
-        image.setOnTouchListener(this);
-        RelativeLayout.LayoutParams marginParams[] = new RelativeLayout.LayoutParams[10];
-        ImageView imageArr[] = new ImageView[10];
-        
-        int instx=5, insty=90;
-        for (int i=0; i<10; i++)
-        {	
-        	marginParams[i] = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        	marginParams[i].width = 50;
-            marginParams[i].height = 50;
-            marginParams[i].leftMargin = instx;
-        	marginParams[i].topMargin = insty;
-        	imageArr[i] = new ImageView(this);
-        	imageArr[i].setBackgroundColor(Color.BLUE);
-        	myLayout.addView(imageArr[i],marginParams[i]);
-        	instx += 20;
-        	insty += 51;
-        	imageArr[i].setOnTouchListener(this);
-        }
-    }
+        TextView puzzlebtn = (TextView) findViewById(R.id.game1);
+        TextView flipCards = (TextView) findViewById(R.id.game2);
+        TextView puzzle2 = (TextView) findViewById(R.id.game3);
+        TextView count = (TextView) findViewById(R.id.game4);
+        puzzlebtn.setOnClickListener(this);
+        flipCards.setOnClickListener(this);
+        puzzle2.setOnClickListener(this);
+        count.setOnClickListener(this);
+       }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -56,38 +32,27 @@ public class MainActivity extends Activity implements OnTouchListener {
         return true;
     }
 
-	public boolean onTouch(View v, MotionEvent event) {
-		
-		lp = (LayoutParams) v.getLayoutParams();
-		switch(event.getAction())
-	      {
-	      case MotionEvent.ACTION_DOWN:
-	    	  x0 = (int)(event.getRawX()) - v.getLeft() - (int)(event.getX());
-	    	  y0 = (int)(event.getRawY()) - v.getTop() - (int)(event.getY());
-	    	  break;
-	      case MotionEvent.ACTION_MOVE:
-	    	  Log.v("mytag", "moving");
-	    	  x_cord = (int)event.getRawX()-x0;
-	          y_cord = (int)event.getRawY()-y0;
-	          if (!((x_cord>box.getLeft())&&(x_cord<box.getRight())&&(y_cord>box.getTop())&&(y_cord<box.getBottom())))
-	        	  box.setBackgroundColor(Color.BLACK);
-	          else
-	        	  box.setBackgroundColor(Color.RED);
-	          lp.leftMargin = x_cord-(v.getHeight()/2);
-	          lp.topMargin = y_cord-(v.getWidth()/2);
-
-	          v.setLayoutParams(lp);
-	          v.invalidate();
-	          v.bringToFront();
-	          break;
-	      case MotionEvent.ACTION_UP:
-	    	  if ((x_cord>box.getLeft())&&(x_cord<box.getRight())&&(y_cord>box.getTop())&&(y_cord<box.getBottom()))
-	    	  {
-	    		  box.setBackgroundColor(Color.GREEN);
-	    	  }
-	    	  break;
-	             default : break;
-	      }
-		return true;
+	public void onClick(View v) {
+		Intent intent;
+		switch(v.getId())
+		{
+		case R.id.game1:
+			intent = new Intent(this, PuzzleActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.game2:
+			intent = new Intent(this, FlipActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.game3:
+			intent = new Intent(this, PuzzleBack.class);
+			startActivity(intent);
+			break;
+		case R.id.game4:
+			intent = new Intent(this, Count.class);
+			startActivity(intent);
+			break;
+		}
 	}
+
 }
