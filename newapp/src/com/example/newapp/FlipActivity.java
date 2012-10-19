@@ -19,9 +19,9 @@ import android.widget.RelativeLayout.LayoutParams;
 
 public class FlipActivity extends Activity implements OnClickListener{
 	
-	
+	int[] clr = new int[4];
 	ImageView[][] cards, backSide;
-	int count_y= 3, count_x = 4;
+	int count_y= 4, count_x = 2;
 	int size = 100;
 	RelativeLayout myLayout;
 	boolean isFirstImage[] = new boolean[50];
@@ -36,7 +36,10 @@ public class FlipActivity extends Activity implements OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.flip);
-        
+        clr[0] = Color.BLUE;
+        clr[1] = Color.GREEN;
+        clr[2] = Color.YELLOW;
+        clr[3] = Color.GRAY;
         myChronometer = (Chronometer) findViewById(R.id.chr);
         myChronometer.setVisibility(View.GONE);
         myLayout = (RelativeLayout) findViewById(R.id.Rlay);
@@ -90,6 +93,7 @@ public class FlipActivity extends Activity implements OnClickListener{
         		w = r.nextInt(count_y);
         	}
         	arindex[q][w]=z;
+        	cards[q][w].setBackgroundColor(clr[z-1]);
         	if ((i % 2)!=0)
         		z++;
         	i++;

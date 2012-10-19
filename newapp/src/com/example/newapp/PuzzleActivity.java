@@ -9,16 +9,19 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
-public class PuzzleActivity extends Activity implements OnTouchListener {
+public class PuzzleActivity extends Activity implements OnTouchListener, AnimationListener {
 	
-	int obj_count = 4;
+	int[] clr = new int[4];
+	int obj_count = 4, hiding;
 	RelativeLayout myLayout;
 	RelativeLayout.LayoutParams lp;
+	LayoutParams localparams;
 	int x0,y0;
 	int x_cord, y_cord;
 	int x_in=0, y_in=0;
@@ -31,7 +34,12 @@ public class PuzzleActivity extends Activity implements OnTouchListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.puzzle); 
-
+        
+        clr[0] = Color.BLUE;
+        clr[1] = Color.GREEN;
+        clr[2] = Color.YELLOW;
+        clr[3] = Color.GRAY;
+        
         half = (int) size/2;
         localBox = new ImageView(this);
         myLayout = (RelativeLayout) findViewById(R.id.Rlay); 
@@ -51,7 +59,7 @@ public class PuzzleActivity extends Activity implements OnTouchListener {
             objParam[i].leftMargin = instx;
         	objParam[i].topMargin = insty;
         	imageArr[i] = new ImageView(this);
-        	imageArr[i].setBackgroundColor(Color.BLUE);
+        	imageArr[i].setBackgroundColor(clr[i]);
         	imageArr[i].setId(i+1);
         	myLayout.addView(imageArr[i],objParam[i]);
         	imageArr[i].setOnTouchListener(this);
@@ -62,13 +70,16 @@ public class PuzzleActivity extends Activity implements OnTouchListener {
             boxParam[i].leftMargin = instx;
         	boxParam[i].topMargin = insty+500;
         	boxArr[i] = new ImageView(this);
-        	boxArr[i].setBackgroundColor(Color.BLACK);
+        	boxArr[i].setBackgroundColor(clr[i]-100);
+        	clr[i] -= 100;
         	boxArr[i].setId((i+1)*10);
         	myLayout.addView(boxArr[i],boxParam[i]);
         	
         	instx += objParam[i].width+5;
         	//insty += 51;
         }
+        clr[3] = Color.DKGRAY;
+        boxArr[3].setBackgroundColor(Color.DKGRAY);
     }
 
     @Override
@@ -104,10 +115,17 @@ public class PuzzleActivity extends Activity implements OnTouchListener {
 	    		 x_cord-=x_in;
 	    		 y_cord-=y_in;
 	    		 if (!((x_cord+half>localBox.getLeft())&&(x_cord+half<localBox.getRight())&&(y_cord+half>localBox.getTop())&&(y_cord+half<localBox.getBottom())))
-	    			 localBox.setBackgroundColor(Color.BLACK);
+	    			 localBox.setBackgroundColor(clr[v.getId()-1]);
 	    		 else
-	    			 localBox.setBackgroundColor(Color.RED);
-	    		 
+	    		 localBox.setBackgroundColor(Color.RED);
+	    		 if (x_cord<x0)
+	    			 x_cord = x0;
+	    		 if (x_cord+(int)(v.getWidth())>myLayout.getWidth())
+	    			 x_cord = myLayout.getWidth() - v.getWidth();
+	    		 if (y_cord<0)
+	    			 y_cord = 0;
+	    		 if (y_cord+(int)(v.getHeight())>myLayout.getHeight())
+	    			 y_cord = myLayout.getHeight()-v.getHeight();
 	    		 lp.leftMargin = x_cord;
 	    		 lp.topMargin = y_cord;
 
@@ -123,17 +141,38 @@ public class PuzzleActivity extends Activity implements OnTouchListener {
     		  Log.v("Bug", String.valueOf(localBox.getLeft()-event.getRawX()+x_in+x0)+" "+String.valueOf(localBox.getTop()-event.getRawY()+y_in+y0));
 	    	  if ((x_cord+half>localBox.getLeft())&&(x_cord+half<localBox.getRight())&&(y_cord+half>localBox.getTop())&&(y_cord+half<localBox.getBottom()))
 	    	  {
-	    		  Animation anim = new TranslateAnimation(0, localBox.getLeft()-event.getRawX()+x_in+x0, 0, localBox.getTop()-event.getRawY()+y_in+y0);
-	    		  anim.setDuration(2000);
-	    		  anim.setFillAfter(true);
+	    		  hiding = v.getId();
+	    		  localparams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+	    		  localparams = (LayoutParams) v.getLayoutParams();
+	    		  localparams.leftMargin = (int) (localBox.getLeft());
+	    		  localparams.topMargin = (int) (localBox.getTop());
+	    		  Animation anim = new TranslateAnimation(0, localBox.getLeft()-x_cord, 0, localBox.getTop()-y_cord);
+	    		  anim.setAnimationListener(this);
+	    		  anim.setDuration(500);
+	    		  anim.setFillEnabled(true);
+	    		  //anim.setFillAfter(true);
 	    		  v.startAnimation(anim);
-	    		  localBox.setBackgroundColor(Color.GREEN);
-
-	    		  
+	    		  v.setOnTouchListener(null);
+	    		  anim = null;
 	    	  }
 	    	  break;
 	             default : break;
 	      }
 		return true;
 	}
+	public void onAnimationEnd(Animation animation) {
+    	ImageView localimage = (ImageView) findViewById(hiding);
+		localimage.setLayoutParams(localparams);
+	  }
+
+	public void onAnimationRepeat(Animation animation) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void onAnimationStart(Animation animation) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
