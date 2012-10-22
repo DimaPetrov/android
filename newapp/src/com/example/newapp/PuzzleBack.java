@@ -1,6 +1,7 @@
 package com.example.newapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,7 +30,9 @@ public class PuzzleBack extends Activity implements OnTouchListener, AnimationLi
 	ImageView localBox;
 	int half, size =100;
 	boolean drag = false;
-	boolean agree = true;
+	boolean x = false, agree = true;
+	int action = 0;
+	int win = 0;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,8 +57,8 @@ public class PuzzleBack extends Activity implements OnTouchListener, AnimationLi
         int instx=5, insty=100;
         for (int i=0; i<obj_count; i++)
         {	
-        	instArr[i][0] = instx;
-        	instArr[i][1] = insty;
+        	//instArr[i][0] = instx;
+        	//instArr[i][1] = insty;
         	objParam[i] = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         	objParam[i].width = size;
             objParam[i].height = size;
@@ -83,6 +86,28 @@ public class PuzzleBack extends Activity implements OnTouchListener, AnimationLi
         }
         clr[3] = Color.DKGRAY;
         boxArr[3].setBackgroundColor(Color.DKGRAY);
+        objParam[0].leftMargin = 100;
+        objParam[0].topMargin = 100;
+        objParam[1].leftMargin = 205;
+        objParam[1].topMargin = 100;
+        objParam[2].leftMargin = 100;
+        objParam[2].topMargin = 205;
+        objParam[3].leftMargin = 205;
+        objParam[3].topMargin = 205;
+        
+        boxParam[0].leftMargin = 500;
+        boxParam[0].topMargin = 100;
+        boxParam[1].leftMargin = 605;
+        boxParam[1].topMargin = 100;
+        boxParam[2].leftMargin = 500;
+        boxParam[2].topMargin = 205;
+        boxParam[3].leftMargin = 605;
+        boxParam[3].topMargin = 205;
+        for (int i=0; i<obj_count; i++)
+        {	
+        	instArr[i][0] = objParam[i].leftMargin;
+        	instArr[i][1] = objParam[i].topMargin;
+        }
     }
 
 	public boolean onTouch(View v, MotionEvent event) {
@@ -96,6 +121,7 @@ public class PuzzleBack extends Activity implements OnTouchListener, AnimationLi
 		switch(event.getAction())
 	      {
 	      case MotionEvent.ACTION_DOWN:
+	    	  action = 1;
 	    	  lp = (LayoutParams) v.getLayoutParams();
 	    	  drag = true;
 	    	  x0 = (int)(event.getRawX()) - v.getLeft() - (int)(event.getX());
@@ -107,8 +133,10 @@ public class PuzzleBack extends Activity implements OnTouchListener, AnimationLi
 	    	  v.bringToFront();
 	    	  break;
 	      case MotionEvent.ACTION_MOVE:
-	    	  if ((true))
+	    	  if (agree)
 	    	  {
+	    		 if (action == 1)
+	    		 {
 	    		 Log.v("moving", String.valueOf(x_cord)+" "+String.valueOf(y_cord));
 	    		 x_cord = (int)event.getRawX()-x0;
 	    		 y_cord = (int)event.getRawY()-y0;
@@ -132,16 +160,19 @@ public class PuzzleBack extends Activity implements OnTouchListener, AnimationLi
 	    		 v.setLayoutParams(lp);
 	    		 v.invalidate();
 	    		 v.bringToFront();
+	    		 }
 	    	  }
 	          break;
 	      case MotionEvent.ACTION_UP:
-	    	  
+	    	  if (action == 1)
+	    	  {
 	    	  drag = false;
     		  Log.v("Animation", String.valueOf(localBox.getLeft()+" "+String.valueOf(localBox.getTop())));
     		  Log.v("Animation", String.valueOf(event.getRawX()-x_in-x0)+" "+ String.valueOf(event.getRawY()-y_in-y0));
     		  Log.v("Bug", String.valueOf(localBox.getLeft()-event.getRawX()+x_in+x0)+" "+String.valueOf(localBox.getTop()-event.getRawY()+y_in+y0));
 	    	  if ((x_cord+half>localBox.getLeft())&&(x_cord+half<localBox.getRight())&&(y_cord+half>localBox.getTop())&&(y_cord+half<localBox.getBottom()))
 	    	  {
+	    		  x = true;
 	    		  localparams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 	    		  localparams = (LayoutParams) v.getLayoutParams();
 	    		  localparams.leftMargin = (int) (localBox.getLeft());
@@ -156,12 +187,14 @@ public class PuzzleBack extends Activity implements OnTouchListener, AnimationLi
 	    		  v.startAnimation(anim);
 	    		  anim = null;
 	    		  v.setOnTouchListener(null);
+	    		  imageArr[v.getId()-1] = new ImageView(this);
 	    		  
 	    	  }
 	    	  else
 	    	  {
+	    		  x = false;
 	    		  Animation anim = new TranslateAnimation(0, instArr[v.getId()-1][0]-x_cord, 0, instArr[v.getId()-1][1]-y_cord);
-	    		  anim.setDuration(300);
+	    		  anim.setDuration(200);
 	    		  anim.setFillEnabled(true);
 	    		  //anim.setFillAfter(true);
 	    		  hiding = v.getId();
@@ -171,25 +204,40 @@ public class PuzzleBack extends Activity implements OnTouchListener, AnimationLi
 	    		  localparams.topMargin = (int) (instArr[v.getId()-1][1]);
 	    		  agree = false;
 	    		  anim.setAnimationListener(this);
-	    		  
+	    		  for (int i=0; i<obj_count; i++)
+	    			  imageArr[i].setOnTouchListener(null);
 	    		  v.startAnimation(anim);
 	    		  anim = null;
 	    	  }
+	    	  }
 	    	  break;
-	             default : break;
+	             default : action = 0; break;
 	      }
 		}
 		return true;
 	}
 	public void onAnimationEnd(Animation animation) {
-    	ImageView localimage = (ImageView) findViewById(hiding);
+		ImageView localimage = (ImageView) findViewById(hiding);
 		localimage.setLayoutParams(localparams);
     	Log.v("END!", "!!!");
     	agree = true;
+    	for (int i=0; i<obj_count; i++)
+			  imageArr[i].setOnTouchListener(this);
+    	if (x)
+    	{
+    	win++;
+		  if (win == 4)
+		  {
+			  startActivity(new Intent(this, Count.class));
+			  this.finish();
+			  overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
+		  }
+    	}
 	  }
 
 	public void onAnimationRepeat(Animation animation) {
 		// TODO Auto-generated method stub
+		myLayout.invalidate();
 		
 	}
 

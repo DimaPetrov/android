@@ -5,6 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -31,6 +32,7 @@ public class FlipActivity extends Activity implements OnClickListener{
 	int firstIdent;
 	int[][] arindex = new int[count_x][count_y];
 	Chronometer myChronometer;
+	int win = 0;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,6 @@ public class FlipActivity extends Activity implements OnClickListener{
         myChronometer = (Chronometer) findViewById(R.id.chr);
         myChronometer.setVisibility(View.GONE);
         myLayout = (RelativeLayout) findViewById(R.id.Rlay);
-        myLayout.setBackgroundColor(Color.WHITE);
         RelativeLayout.LayoutParams cardParam[][] = new RelativeLayout.LayoutParams[count_x][count_y];
         RelativeLayout cardBox[][] = new RelativeLayout[count_x][count_y];
         cards = new ImageView[count_x][count_y];
@@ -167,6 +168,13 @@ public class FlipActivity extends Activity implements OnClickListener{
     						im1.setVisibility(View.GONE);
     						im2.setVisibility(View.GONE);
     						card1Back.setVisibility(View.GONE);
+    						win++;
+    						if (win==4)
+    						{
+    							startActivity(new Intent(FlipActivity.this, PuzzleBack.class));
+    							FlipActivity.this.finish();
+    							overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
+    						}
     					}
             	    	myChronometer.stop();
     				}

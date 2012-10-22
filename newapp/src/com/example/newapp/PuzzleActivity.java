@@ -1,6 +1,7 @@
 package com.example.newapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,7 @@ public class PuzzleActivity extends Activity implements OnTouchListener, Animati
 	ImageView localBox;
 	int half, size =100;
 	boolean drag = false;
+	int win = 0;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,23 @@ public class PuzzleActivity extends Activity implements OnTouchListener, Animati
         }
         clr[3] = Color.DKGRAY;
         boxArr[3].setBackgroundColor(Color.DKGRAY);
+        objParam[0].leftMargin = 100;
+        objParam[0].topMargin = 100;
+        objParam[1].leftMargin = 205;
+        objParam[1].topMargin = 100;
+        objParam[2].leftMargin = 100;
+        objParam[2].topMargin = 205;
+        objParam[3].leftMargin = 205;
+        objParam[3].topMargin = 205;
+        
+        boxParam[0].leftMargin = 500;
+        boxParam[0].topMargin = 100;
+        boxParam[1].leftMargin = 605;
+        boxParam[1].topMargin = 100;
+        boxParam[2].leftMargin = 500;
+        boxParam[2].topMargin = 205;
+        boxParam[3].leftMargin = 605;
+        boxParam[3].topMargin = 205;
     }
 
     @Override
@@ -142,15 +161,15 @@ public class PuzzleActivity extends Activity implements OnTouchListener, Animati
 	    	  if ((x_cord+half>localBox.getLeft())&&(x_cord+half<localBox.getRight())&&(y_cord+half>localBox.getTop())&&(y_cord+half<localBox.getBottom()))
 	    	  {
 	    		  hiding = v.getId();
-	    		  localparams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-	    		  localparams = (LayoutParams) v.getLayoutParams();
-	    		  localparams.leftMargin = (int) (localBox.getLeft());
-	    		  localparams.topMargin = (int) (localBox.getTop());
+	    		  //localparams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+	    		  //localparams = (LayoutParams) v.getLayoutParams();
+	    		  //localparams.leftMargin = (int) (localBox.getLeft());
+	    		  //localparams.topMargin = (int) (localBox.getTop());
 	    		  Animation anim = new TranslateAnimation(0, localBox.getLeft()-x_cord, 0, localBox.getTop()-y_cord);
 	    		  anim.setAnimationListener(this);
-	    		  anim.setDuration(500);
+	    		  anim.setDuration(200);
 	    		  anim.setFillEnabled(true);
-	    		  //anim.setFillAfter(true);
+	    		  anim.setFillAfter(true);
 	    		  v.startAnimation(anim);
 	    		  v.setOnTouchListener(null);
 	    		  anim = null;
@@ -161,8 +180,18 @@ public class PuzzleActivity extends Activity implements OnTouchListener, Animati
 		return true;
 	}
 	public void onAnimationEnd(Animation animation) {
-    	ImageView localimage = (ImageView) findViewById(hiding);
-		localimage.setLayoutParams(localparams);
+    	//ImageView localimage = (ImageView) findViewById(hiding);
+		//localimage.setLayoutParams(localparams);
+		win++;
+		if (win == 4)
+		{
+			
+			Intent intent = new Intent(this, FlipActivity.class);  
+		    startActivity(intent);
+		    PuzzleActivity.this.finish();
+			overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
+		}
+		
 	  }
 
 	public void onAnimationRepeat(Animation animation) {

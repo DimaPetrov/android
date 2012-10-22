@@ -13,17 +13,23 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_main"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="PuzzleActivity"></activity>
-        <activity android:name="FlipActivity"></activity>
-        <activity android:name="PuzzleBack"></activity>
-        <activity android:name="Count"></activity>
+        <activity android:name="PuzzleActivity"
+            android:screenOrientation="landscape"></activity>
+        <activity android:name="FlipActivity"
+            android:screenOrientation="landscape"></activity>
+        <activity android:name="PuzzleBack"
+            android:screenOrientation="landscape"></activity>
+        <activity android:name="Count"
+            android:screenOrientation="landscape"
+            ></activity>
     </application>
-
+<uses-permission android:name="android.permission.WRITE_SETTINGS"/>
 </manifest>

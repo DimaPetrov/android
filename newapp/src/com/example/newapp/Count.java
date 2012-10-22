@@ -1,6 +1,7 @@
 package com.example.newapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -56,5 +57,11 @@ public class Count extends Activity implements OnClickListener {
 		int x = Integer.parseInt((String) count.getText());
 		x++;
 		count.setText(String.valueOf(x));
+		if (x == 4)
+		  {
+			  startActivity(new Intent(this, MainActivity.class));
+			  this.finish();
+			  overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
+		  }
 	}
 }
