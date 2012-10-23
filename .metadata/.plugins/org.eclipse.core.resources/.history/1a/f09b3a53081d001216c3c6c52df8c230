@@ -1,0 +1,12 @@
+package com.example.newapp;
+
+import android.widget.ImageView;
+
+public class MyAnimation {
+	
+	public MyAnimation(ImageView image)
+	{
+		this
+	}
+
+}

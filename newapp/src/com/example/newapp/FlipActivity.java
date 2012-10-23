@@ -137,7 +137,7 @@ public class FlipActivity extends Activity implements OnClickListener{
         	firstIdent = ident;
         	card1Front = im1;
         	card1Back = im2;
-        	t0.schedule(stoped, 300);
+        	t0.schedule(stoped, 100);
         	firstFront = im1;
         	firstBack = im2;
         } else if ((view.getId()!=firstBack.getId())&&(view.getId()!=firstFront.getId()))
@@ -154,7 +154,7 @@ public class FlipActivity extends Activity implements OnClickListener{
         		public void onChronometerTick(Chronometer chronometer) {
     				long myElapsedMillis = SystemClock.elapsedRealtime()
     						- myChronometer.getBase();
-    				if (myElapsedMillis >= 400)
+    				if (myElapsedMillis >= 50)   // сколько показывать открытые карточки (хреново работает)
     				{   
     					int m1 = card1Front.getId();
     					int m3 = im1.getId();
@@ -183,10 +183,10 @@ public class FlipActivity extends Activity implements OnClickListener{
         	myChronometer.setOnChronometerTickListener(listen);
         	myChronometer.setBase(SystemClock.elapsedRealtime());
         	myChronometer.start();
-        	t0.schedule(stoped, 1100);
+        	t0.schedule(stoped, 1000); //когда врубить листенер
         }
         else
-        	t0.schedule(stoped, 100);
+        	t0.schedule(stoped, 150); //когда врубить листенер
     	    	
         }
     
@@ -196,7 +196,7 @@ public class FlipActivity extends Activity implements OnClickListener{
     	 
     	final Flip3dAnimation rotation =
     	new Flip3dAnimation(start, end, centerX, centerY);
-    	rotation.setDuration(200);
+    	rotation.setDuration(50);  // дюрейшн флип анимации
     	rotation.setFillAfter(true);
     	rotation.setInterpolator(new AccelerateInterpolator());
     	rotation.setAnimationListener(new DisplayNextView(isFirstImage[ident], image1, image2, size));

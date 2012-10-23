@@ -1,0 +1,26 @@
+package com.example.newapp;
+
+import android.widget.ImageView;
+
+public class MyAnimation {
+	
+	ImageView image;
+	float xn, yn, xk, yk;
+	
+	public MyAnimation(ImageView image)
+	{
+		this.image = image;
+	}
+	
+	public void start(float xn, float yn, float xk, float yk)
+	{
+		float k = (yk-yn)/(xk-xn);
+		float b = yn - k*xn;
+		for (float i = xn; i<=xk; i+=0.1)
+		{
+			image.setLeft((int) i);
+			image.setTop((int) (k*i+b));
+		}
+	}
+
+}
