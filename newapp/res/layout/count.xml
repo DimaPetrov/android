@@ -3,7 +3,7 @@
     android:id="@+id/Rlay3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_games_test" >
+     >
 
     <TextView
         android:id="@+id/index"
@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="35dp"
         android:layout_marginTop="25dp"
-        android:text="0"
+        android:text="@string/nul"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>
