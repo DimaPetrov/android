@@ -16,4 +16,13 @@
         android:text="@string/nul"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="95dp"
+        android:layout_height="117dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/p_games_characterdef"
+        android:contentDescription="@string/nul" />
+
 </RelativeLayout>
