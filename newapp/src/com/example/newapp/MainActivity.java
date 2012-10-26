@@ -30,6 +30,8 @@ public class MainActivity extends Activity implements OnClickListener {
         btn3.setOnClickListener(this);
         Button btn4 = (Button) findViewById(R.id.button4);
         btn4.setOnClickListener(this);
+        Button btn5 = (Button) findViewById(R.id.button5);
+        btn5.setOnClickListener(this);
         
        }
 
@@ -65,6 +67,11 @@ public class MainActivity extends Activity implements OnClickListener {
 			case R.id.button4:
 				this.finish();
 				startActivity(new Intent(this, Count.class));
+				overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
+				break;
+			case R.id.button5:
+				this.finish();
+				startActivity(new Intent(this, ShapeActivity.class));
 				overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
 				break;
 		}

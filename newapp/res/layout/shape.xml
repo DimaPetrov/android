@@ -1,0 +1,23 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/shapelay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+     <ImageView
+        android:id="@+id/rabbit"
+        android:layout_width="95dp"
+        android:layout_height="117dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/p_games_characterdef"
+        android:contentDescription="@string/nul" />
+
+     <TextView
+         android:id="@+id/textView1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentTop="true"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="15dp"
+         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>

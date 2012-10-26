@@ -39,10 +39,10 @@ public class FlipActivity extends Activity implements OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.flip);
-        clr[0] = Color.BLUE;
-        clr[1] = Color.GREEN;
-        clr[2] = Color.YELLOW;
-        clr[3] = Color.GRAY;
+        clr[0] = R.drawable.o_album_en;
+        clr[1] = R.drawable.o_bed_en;
+        clr[2] = R.drawable.o_lamp_en;
+        clr[3] = R.drawable.o_train_en;
         myChronometer = (Chronometer) findViewById(R.id.chr);
         myChronometer.setVisibility(View.GONE);
         myLayout = (RelativeLayout) findViewById(R.id.Rlay1);
@@ -70,8 +70,7 @@ public class FlipActivity extends Activity implements OnClickListener{
         		myLayout.addView(cardBox[i][j]);
         		cardBox[i][j].addView(cards[i][j] = new ImageView(this),cardParam[i][j]);
         		cardBox[i][j].addView(backSide[i][j] = new ImageView(this),cardParam[i][j]);
-        		cards[i][j].setBackgroundColor(Color.GREEN);
-        		backSide[i][j].setBackgroundColor(Color.RED);
+        		backSide[i][j].setBackgroundResource(R.drawable.p_games_matchcardback);
         		cards[i][j].setId(id);
         		backSide[i][j].setId(id*100);
         		cards[i][j].setVisibility(View.GONE);
@@ -95,7 +94,8 @@ public class FlipActivity extends Activity implements OnClickListener{
         		w = r.nextInt(count_y);
         	}
         	arindex[q][w]=z;
-        	cards[q][w].setBackgroundColor(clr[z-1]);
+        	cards[q][w].setImageResource(clr[z-1]);
+        	cards[q][w].setBackgroundResource(R.drawable.p_games_matchcardfront);
         	if ((i % 2)!=0)
         		z++;
         	i++;
@@ -156,7 +156,7 @@ public class FlipActivity extends Activity implements OnClickListener{
         		public void onChronometerTick(Chronometer chronometer) {
     				long myElapsedMillis = SystemClock.elapsedRealtime()
     						- myChronometer.getBase();
-    				if (myElapsedMillis >= 50)   // сколько показывать открытые карточки (хреново работает)
+    				if (myElapsedMillis >= 100)   // сколько показывать открытые карточки (хреново работает)
     				{   
     					int m1 = card1Front.getId();
     					int m3 = im1.getId();
@@ -187,7 +187,7 @@ public class FlipActivity extends Activity implements OnClickListener{
         	myChronometer.setOnChronometerTickListener(listen);
         	myChronometer.setBase(SystemClock.elapsedRealtime());
         	myChronometer.start();
-        	t0.schedule(stoped, 1000); //когда врубить листенер
+        	t0.schedule(stoped, 1100); //когда врубить листенер
         }
         else
         	t0.schedule(stoped, 150); //когда врубить листенер

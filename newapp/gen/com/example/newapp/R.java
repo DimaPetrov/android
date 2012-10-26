@@ -10,10 +10,11 @@ package com.example.newapp;
 public final class R {
     public static final class anim {
         public static final int setposition=0x7f040000;
-        public static final int slide_left_in=0x7f040001;
-        public static final int slide_left_out=0x7f040002;
-        public static final int slide_right_in=0x7f040003;
-        public static final int slide_right_out=0x7f040004;
+        public static final int shapewin=0x7f040001;
+        public static final int slide_left_in=0x7f040002;
+        public static final int slide_left_out=0x7f040003;
+        public static final int slide_right_in=0x7f040004;
+        public static final int slide_right_out=0x7f040005;
     }
     public static final class attr {
     }
@@ -47,25 +48,39 @@ public final class R {
         public static final int o_tvset_en=0x7f02001a;
         public static final int o_umbrella_en=0x7f02001b;
         public static final int p_games_characterdef=0x7f02001c;
-        public static final int p_games_sortslots=0x7f02001d;
+        public static final int p_games_characterfalse=0x7f02001d;
+        public static final int p_games_charactertrue=0x7f02001e;
+        public static final int p_games_matchcardback=0x7f02001f;
+        public static final int p_games_matchcardfront=0x7f020020;
+        public static final int p_games_shapecircle=0x7f020021;
+        public static final int p_games_shapediamond=0x7f020022;
+        public static final int p_games_shapeheart=0x7f020023;
+        public static final int p_games_shapesquare=0x7f020024;
+        public static final int p_games_shapestar=0x7f020025;
+        public static final int p_games_shapetriangle=0x7f020026;
+        public static final int p_games_sortslots=0x7f020027;
     }
     public static final class id {
-        public static final int Rlay=0x7f08000b;
-        public static final int Rlay1=0x7f080009;
-        public static final int Rlay2=0x7f08000c;
-        public static final int Rlay3=0x7f080006;
-        public static final int backlay=0x7f08000d;
+        public static final int Rlay=0x7f08000c;
+        public static final int Rlay1=0x7f08000a;
+        public static final int Rlay2=0x7f08000d;
+        public static final int Rlay3=0x7f080007;
+        public static final int backlay=0x7f08000e;
         public static final int button1=0x7f080002;
         public static final int button2=0x7f080003;
         public static final int button3=0x7f080004;
         public static final int button4=0x7f080005;
-        public static final int chr=0x7f08000a;
+        public static final int button5=0x7f080006;
+        public static final int chr=0x7f08000b;
         public static final int game1=0x7f080001;
-        public static final int imageView1=0x7f080008;
-        public static final int index=0x7f080007;
-        public static final int mainbox=0x7f08000e;
+        public static final int imageView1=0x7f080009;
+        public static final int index=0x7f080008;
+        public static final int mainbox=0x7f08000f;
         public static final int mainlay=0x7f080000;
-        public static final int menu_settings=0x7f08000f;
+        public static final int menu_settings=0x7f080013;
+        public static final int rabbit=0x7f080011;
+        public static final int shapelay=0x7f080010;
+        public static final int textView1=0x7f080012;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -73,6 +88,7 @@ public final class R {
         public static final int flip=0x7f030002;
         public static final int puzzle=0x7f030003;
         public static final int puzzleback=0x7f030004;
+        public static final int shape=0x7f030005;
     }
     public static final class menu {
         public static final int activity_main=0x7f070000;
@@ -84,6 +100,7 @@ public final class R {
         public static final int g2=0x7f050008;
         public static final int g3=0x7f050009;
         public static final int g4=0x7f05000a;
+        public static final int g5=0x7f05000b;
         public static final int hello_world=0x7f050001;
         public static final int menu_settings=0x7f050002;
         public static final int nul=0x7f050005;
