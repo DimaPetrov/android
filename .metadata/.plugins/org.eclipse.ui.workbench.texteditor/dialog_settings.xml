@@ -13,18 +13,20 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="Timer" key="selection"/>
+		<item value="countLyout" key="selection"/>
 		<list key="findhistory">
+			<item value="myLayout"/>
+			<item value="anima"/>
+			<item value="mylayout"/>
 			<item value="timer"/>
 			<item value="red"/>
 			<item value="boxParam"/>
 			<item value="3"/>
 			<item value="touch"/>
-			<item value="instar"/>
-			<item value="objParam"/>
-			<item value="ron"/>
 		</list>
 		<list key="replacehistory">
+			<item value="countLyout"/>
+			<item value="shapeLayout"/>
 			<item value="objParam"/>
 			<item value="boxParam"/>
 			<item value="localBox"/>
