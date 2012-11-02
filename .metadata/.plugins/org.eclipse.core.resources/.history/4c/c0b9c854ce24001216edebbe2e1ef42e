@@ -1,0 +1,13 @@
+package com.example.newapp;
+
+public class colorObj extends GameSpace{
+
+	ImageView[] white, blue, red, yellow, margenta, green, darkblue;
+	
+	public colorObj()
+	{
+		this.white = new ImageView[2];
+		
+		
+	}
+}

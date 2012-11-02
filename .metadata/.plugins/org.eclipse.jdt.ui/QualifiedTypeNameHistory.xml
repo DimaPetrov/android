@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="android.widget.RelativeLayout.LayoutParams"/>
 <fullyQualifiedTypeName name="java.lang.Thread"/>
 <fullyQualifiedTypeName name="android.widget.Chronometer.OnChronometerTickListener"/>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="android.provider.Settings"/>
 <fullyQualifiedTypeName name="android.provider.Settings.System"/>
 <fullyQualifiedTypeName name="android.R.anim"/>
-<fullyQualifiedTypeName name="android.graphics.Color"/>
 <fullyQualifiedTypeName name="android.view.animation.AnimationUtils"/>
 <fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
 <fullyQualifiedTypeName name="com.example.newapp.R.layout"/>
-<fullyQualifiedTypeName name="com.example.newapp.R.anim"/>
-<fullyQualifiedTypeName name="com.example.newapp.R.id"/>
 <fullyQualifiedTypeName name="android.view.animation.Animation.AnimationListener"/>
 <fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="android.view.View.OnTouchListener"/>
+<fullyQualifiedTypeName name="android.widget.RelativeLayout.LayoutParams"/>
 <fullyQualifiedTypeName name="com.example.newapp.R"/>
+<fullyQualifiedTypeName name="android.view.Display"/>
+<fullyQualifiedTypeName name="android.os.Handler"/>
+<fullyQualifiedTypeName name="com.example.newapp.R.anim"/>
+<fullyQualifiedTypeName name="com.example.newapp.R.id"/>
+<fullyQualifiedTypeName name="java.lang.reflect.Array"/>
 <fullyQualifiedTypeName name="com.example.newapp.R.drawable"/>
+<fullyQualifiedTypeName name="android.content.Context"/>
+<fullyQualifiedTypeName name="android.graphics.Color"/>
 </qualifiedTypeNameHistroy>

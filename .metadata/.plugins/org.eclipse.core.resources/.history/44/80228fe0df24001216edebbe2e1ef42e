@@ -1,0 +1,14 @@
+package com.example.newapp;
+
+import android.widget.ImageView;
+
+public class ModImageView extends ColorObj {
+
+	ImageView image;
+	String color;
+	
+	public ModImageView()
+	{
+		image = new ImageView(GameSpace.cont);
+	}
+}
