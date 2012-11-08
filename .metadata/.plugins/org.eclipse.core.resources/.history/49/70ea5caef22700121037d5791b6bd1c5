@@ -1,0 +1,18 @@
+package com.example.newapp;
+
+import android.widget.ImageView;
+
+public class ModImageView extends GameSpace {
+
+	ImageView image;
+	String color;
+	String name;
+	
+	public ModImageView()
+	{
+		this.image = null;
+		this.color = null;
+		this.name = null;
+	}
+	
+}

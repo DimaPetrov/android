@@ -1,0 +1,161 @@
+package com.example.newapp;
+
+import java.util.Random;
+
+import android.graphics.Color;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Animation.AnimationListener;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.RelativeLayout.LayoutParams;
+
+public class ColorG extends GameSpace{
+
+
+	ModImageView[][] collect;
+	
+	public void ColorObj()
+	{
+		collect = new ModImageView[8][2];
+		for(int i = 0; i<8; i++)
+			for(int j = 0; j<2; j++)
+			{
+		collect[i][j] = new ModImageView();
+		collect[i][j].image = new ImageView(this);
+			}
+		collect[0][0].image.setBackgroundResource(R.drawable.o_cup_en);
+		collect[0][1].image.setBackgroundResource(R.drawable.o_plate_en);
+		collect[1][0].image.setBackgroundResource(R.drawable.o_toothbrush_en);
+		collect[1][1].image.setBackgroundResource(R.drawable.o_toothpaste_en);
+		collect[2][0].image.setBackgroundResource(R.drawable.o_lamp_en);
+		collect[2][1].image.setBackgroundResource(R.drawable.o_doll_en);
+		collect[3][0].image.setBackgroundResource(R.drawable.o_fork_en);
+		collect[3][1].image.setBackgroundResource(R.drawable.o_gloves_en);
+		collect[4][0].image.setBackgroundResource(R.drawable.o_pants_en);
+		collect[4][1].image.setBackgroundResource(R.drawable.o_tvset_en);
+		collect[5][0].image.setBackgroundResource(R.drawable.o_album_en);
+		collect[5][1].image.setBackgroundResource(R.drawable.o_train_en);
+		collect[6][0].image.setBackgroundResource(R.drawable.o_spoon_en);
+		collect[6][1].image.setBackgroundResource(R.drawable.o_phone_en);
+		collect[7][0].image.setBackgroundResource(R.drawable.o_umbrella_en);
+		collect[7][1].image.setBackgroundResource(R.drawable.o_bed_en);
+		collect[0][0].color = "Белый";
+		collect[0][1].color = "Белый";
+		collect[1][0].color = "Голубой";
+		collect[1][1].color = "Голубой";
+		collect[2][0].color = "Красный";
+		collect[2][1].color = "Красный";
+		collect[3][0].color = "Желтый";
+		collect[3][1].color = "Желтый";
+		collect[4][0].color = "Фиолетовый";
+		collect[4][1].color = "Фиолетовый";
+		collect[5][0].color = "Зеленый";
+		collect[5][1].color = "Зеленый";
+		collect[6][0].color = "Синий";
+		collect[6][1].color = "Синий";
+		collect[7][0].color = "Оранжевый";
+		collect[7][1].color = "Оранжевый";
+	}
+	
+	
+	public void startGame()
+	{
+		RelativeLayout.LayoutParams objParam[][] = new RelativeLayout.LayoutParams[2][4];
+		ImageView[][] localItems = new ImageView[2][4];
+		boolean res = true;
+		header = new TextView(cont);
+		ColorObj();
+		Random r = new Random();
+		cl = r.nextInt(7);
+		header.setText("Выбери "+collect[cl][r.nextInt(2)].color+" объект");
+		myLayout.addView(header);
+		header.setTextSize(30);
+		header.setTextColor(Color.BLACK);
+		int x = r.nextInt(4);
+		int y = r.nextInt(2);
+		int instx = 200;
+		int insty = 100;
+		int id;
+		for (int i = 0; i < 2; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{	res = true;
+				localItems[i][j] = new ImageView(cont);
+				if ((y==i)&&(x==j))
+				{
+					int qw = r.nextInt(2);
+					localItems[i][j] = collect[cl][qw].image;
+					collect[cl][qw].image.setId(0x666);
+				}else
+				{
+					while (res)
+					{
+						int newcl = r.nextInt(7);
+						id = r.nextInt(2);
+						if ((newcl == cl)||(collect[newcl][id].image==null))
+							res = true;
+						else
+						{
+							localItems[i][j] = collect[newcl][id].image;
+							collect[newcl][id].image = null;
+							res = false;
+						}
+					}
+				}
+				objParam[i][j] = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				objParam[i][j].width = 100;
+				objParam[i][j].height = 100;
+				objParam[i][j].leftMargin = instx;
+				objParam[i][j].topMargin = insty;
+				myLayout.addView(localItems[i][j], objParam[i][j]);
+				localItems[i][j].setOnClickListener(colorListener);
+				instx+=105;
+			}
+			insty+=105;
+			instx = 200;
+		}
+	}
+	
+	OnClickListener colorListener = new OnClickListener(){
+		public void onClick(View v)
+		{
+			if (v.getId() == 0x666)
+			{
+				Animation anim = AnimationUtils.loadAnimation(cont, R.anim.shapewin);
+   				anim.setAnimationListener(new AnimationListener(){
+
+					public void onAnimationEnd(Animation animation) {
+						nextgame();
+						
+					}
+
+					public void onAnimationRepeat(Animation animation) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					public void onAnimationStart(Animation animation) {
+						// TODO Auto-generated method stub
+						
+					}
+   					
+   				});
+   				v.setOnClickListener(null);
+   				v.startAnimation(anim);
+				
+			}
+			else
+   			{
+   				Animation anim = AnimationUtils.loadAnimation(cont, R.anim.slide_right_in);
+   				anim.setRepeatCount(3);
+   				anim.setRepeatMode(Animation.REVERSE);
+   				v.startAnimation(anim);
+   			}
+		}
+	};
+	
+}

@@ -1,0 +1,38 @@
+package com.example.newapp;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.widget.ImageView;
+
+public class ImageConvert extends GameSpace{
+
+	Bitmap instImage, resImage;
+	Bitmap[] asset = new Bitmap[4];
+	ImageView result;
+	
+	
+	public ImageView startConvert(int link, int number)
+	{
+		instImage = BitmapFactory.decodeResource(cont.getResources(), link);
+		asset[0] = BitmapFactory.decodeResource(cont.getResources(), R.drawable.p_games_puzzle1);
+		asset[1] = BitmapFactory.decodeResource(cont.getResources(), R.drawable.p_games_puzzle2);
+		asset[2] = BitmapFactory.decodeResource(cont.getResources(), R.drawable.p_games_puzzle3);
+		asset[3] = BitmapFactory.decodeResource(cont.getResources(), R.drawable.p_games_puzzle4);
+		int transColor = asset[0].getPixel(1, 1);
+		int darkColor = asset[0].getPixel(383, 383);
+		resImage = Bitmap.createBitmap(instImage.getWidth(), instImage.getHeight(), Bitmap.Config.ARGB_8888);
+		for (int i = 0; i<instImage.getWidth(); i++)
+			for(int j = 0; j<instImage.getHeight(); j++)
+			{
+				if (asset[number].getPixel(i, j) == darkColor)
+					resImage.setPixel(i, j, Color.TRANSPARENT);
+				else
+					resImage.setPixel(i, j, instImage.getPixel(i, j));
+			}
+		result = new ImageView(cont);
+		result.setImageBitmap(resImage);
+		return (result);
+	}
+	
+}

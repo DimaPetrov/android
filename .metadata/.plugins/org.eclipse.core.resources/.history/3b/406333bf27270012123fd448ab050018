@@ -1,0 +1,33 @@
+package com.example.newapp;
+
+import android.widget.ImageView;
+
+public class Letter extends GameSpace{
+
+ModImageView[] collect;
+	
+	public void ColorObj()
+	{
+		collect = new ModImageView[8];
+		for(int i = 0; i<8; i++)
+			{
+		collect[i] = new ModImageView();
+		collect[i].image = new ImageView(cont);
+			}
+		collect[0].color = "À"; collect[0].image.setBackgroundResource(R.drawable.o_album_en);
+		collect[1].color = "Ê"; collect[1].image.setBackgroundResource(R.drawable.o_bed_en);
+		collect[2].color = "Ñ"; collect[2].image.setBackgroundResource(R.drawable.o_chair_en);
+		collect[3].color = "Ê"; collect[3].image.setBackgroundResource(R.drawable.o_cup_en);
+		collect[4].color = "Ê"; collect[4].image.setBackgroundResource(R.drawable.o_doll_en);
+		collect[5].color = "Â"; collect[5].image.setBackgroundResource(R.drawable.o_fork_en);
+		collect[6].color = "Ï"; collect[6].image.setBackgroundResource(R.drawable.o_gloves_en);
+		collect[7].color = "Ë"; collect[7].image.setBackgroundResource(R.drawable.o_lamp_en);
+		collect[8].color = "Í"; collect[8].image.setBackgroundResource(R.drawable.o_laptop_en);
+		collect[9].color = "Ò"; collect[9].image.setBackgroundResource(R.drawable.o_pants_en);
+		collect[10].color = "Ò"; collect[10].image.setBackgroundResource(R.drawable.o_phone_en);
+		collect[11].color = "Ò"; collect[11].image.setBackgroundResource(R.drawable.o_plate_en);
+		collect[12].color = "Í"; collect[12].image.setBackgroundResource(R.drawable.o_scissors_en);
+		collect[13].color = "Í"; collect[13].image.setBackgroundResource(R.drawable.o_socks_en);
+		collect[14].color = "Ë"; collect[14].image.setBackgroundResource(R.drawable.o_spoon_en);
+	}
+}

@@ -1,0 +1,113 @@
+package com.example.newapp;
+
+import java.util.Random;
+
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
+
+public class Groups extends GameSpace{
+
+	public void startGame()
+	{
+		int collect[] = new int[20];
+        collect[0] = R.drawable.o_album_en;
+        for(int i =1; i<20; i++)
+        	collect[i] = collect[i-1] +1;
+        Random r = new Random();
+        boolean res = r.nextBoolean();
+        RelativeLayout.LayoutParams objParam[] = new RelativeLayout.LayoutParams[obj_count];
+        imageArr = new ImageView[obj_count];
+        
+        int instx=200, insty=100;
+        for (int i=0; i<6; i++)
+        {
+        	if (i == 2)
+        	{
+        		instx = 200;
+        		insty = 205;
+        	}
+        	if (i == 3)
+        	{
+        		instx = 500;
+        		insty = 100;
+        	}
+        	if (i == 5)
+        	{
+        		instx = 500;
+        		insty = 205;
+        	}
+        	
+        	objParam[i] = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        	objParam[i].width = size;
+            objParam[i].height = size;
+            objParam[i].leftMargin = instx;
+        	objParam[i].topMargin = insty;
+        	imageArr[i] = new ImageView(cont);
+        	r = new Random();
+        	int q = r.nextInt(20);
+        	while (collect[q]==0)
+        		q = r.nextInt(20);
+        	imageArr[i].setBackgroundResource(collect[q]);
+        	collect[q] = 0;
+        	myLayout.addView(imageArr[i],objParam[i]);
+        	instx += 105;
+        }
+        
+        ImageView box1 = new ImageView(cont);
+        ImageView box2 = new ImageView(cont);
+        box1.setBackgroundResource(R.drawable.box1);
+        box2.setBackgroundResource(R.drawable.box2);
+        LayoutParams box1Param = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams box2Param = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        box1Param.leftMargin = 200;
+        box1Param.topMargin = 100;
+        box1Param.width = 230;
+        
+        box2Param.leftMargin = 500;
+        box2Param.topMargin = 100;
+        box2Param.width = 230;
+        
+        objParam[6] = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+    	objParam[6].width = size;
+        objParam[6].height = size;
+        int q = r.nextInt(20);
+    	while (collect[q]==0)
+    		q = r.nextInt(20);
+    	imageArr[6].setBackgroundResource(collect[q]);
+        if (res)
+        {
+        	box1.setId(0x666);
+        	objParam[6].leftMargin = 305;
+        	objParam[6].topMargin = 205;
+        	
+        }
+        else
+        {
+        	box2.setId(0x666);
+        	objParam[6].leftMargin = 605;
+        	objParam[6].topMargin = 205;
+        }
+        myLayout.addView(imageArr[6],objParam[6]);
+        myLayout.addView(box1, box1Param);
+        myLayout.addView(box2, box2Param);
+        box1.setOnClickListener(groupsListener);
+        box2.setOnClickListener(groupsListener);
+	}
+
+	 OnClickListener groupsListener = new OnClickListener(){
+
+			public void onClick(View v) 
+			{			
+				if (v.getId() == 0x666)
+				  {
+					  
+					  nextgame();
+				  }
+			}
+			 
+		 };
+	
+}

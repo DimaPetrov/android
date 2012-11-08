@@ -1,0 +1,114 @@
+package com.example.newapp;
+
+import java.util.Random;
+
+import android.graphics.Color;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Animation.AnimationListener;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.RelativeLayout.LayoutParams;
+
+public class ColorG extends GameSpace{
+
+	public void startGame()
+	{
+		RelativeLayout.LayoutParams objParam[][] = new RelativeLayout.LayoutParams[2][4];
+		ImageView[][] localItems = new ImageView[2][4];
+		boolean res = true;
+		header = new TextView(cont);
+		ColorObj();
+		Random r = new Random();
+		cl = r.nextInt(7);
+		header.setText("ֲûבונט "+collect[cl][r.nextInt(2)].color+" מבתוךע");
+		myLayout.addView(header);
+		header.setTextSize(30);
+		header.setTextColor(Color.BLACK);
+		int x = r.nextInt(4);
+		int y = r.nextInt(2);
+		int instx = 200;
+		int insty = 100;
+		int id;
+		for (int i = 0; i < 2; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{	res = true;
+				localItems[i][j] = new ImageView(cont);
+				if ((y==i)&&(x==j))
+				{
+					int qw = r.nextInt(2);
+					localItems[i][j] = collect[cl][qw].image;
+					collect[cl][qw].image.setId(0x666);
+				}else
+				{
+					while (res)
+					{
+						int newcl = r.nextInt(7);
+						id = r.nextInt(2);
+						if ((newcl == cl)||(collect[newcl][id].image==null))
+							res = true;
+						else
+						{
+							localItems[i][j] = collect[newcl][id].image;
+							collect[newcl][id].image = null;
+							res = false;
+						}
+					}
+				}
+				objParam[i][j] = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				objParam[i][j].width = 100;
+				objParam[i][j].height = 100;
+				objParam[i][j].leftMargin = instx;
+				objParam[i][j].topMargin = insty;
+				myLayout.addView(localItems[i][j], objParam[i][j]);
+				localItems[i][j].setOnClickListener(colorListener);
+				instx+=105;
+			}
+			insty+=105;
+			instx = 200;
+		}
+	}
+	
+	OnClickListener colorListener = new OnClickListener(){
+		public void onClick(View v)
+		{
+			if (v.getId() == 0x666)
+			{
+				Animation anim = AnimationUtils.loadAnimation(cont, R.anim.shapewin);
+   				anim.setAnimationListener(new AnimationListener(){
+
+					public void onAnimationEnd(Animation animation) {
+						nextgame();
+						
+					}
+
+					public void onAnimationRepeat(Animation animation) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					public void onAnimationStart(Animation animation) {
+						// TODO Auto-generated method stub
+						
+					}
+   					
+   				});
+   				v.setOnClickListener(null);
+   				v.startAnimation(anim);
+				
+			}
+			else
+   			{
+   				Animation anim = AnimationUtils.loadAnimation(cont, R.anim.slide_right_in);
+   				anim.setRepeatCount(3);
+   				anim.setRepeatMode(Animation.REVERSE);
+   				v.startAnimation(anim);
+   			}
+		}
+	};
+	
+}
