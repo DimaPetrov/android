@@ -120,6 +120,7 @@ public class ColorG extends GameSpace{
 	OnClickListener colorListener = new OnClickListener(){
 		public void onClick(final View v)
 		{
+			v.setOnClickListener(null);
 			if (v.getId() == 0x666)
 			{
 				Animation anim = AnimationUtils.loadAnimation(cont, R.anim.shapewin);

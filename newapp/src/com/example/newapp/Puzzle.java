@@ -2,6 +2,7 @@ package com.example.newapp;
 
 import java.util.Random;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -16,33 +17,44 @@ import android.widget.RelativeLayout.LayoutParams;
 
 public class Puzzle extends GameSpace {
 	
-	ImageView box;
 	Animation transAnim;
+	ImageView localBox = new ImageView(cont);
 	
 	public void startGame()
 	{
-		size = 200;
+		size = 300;
+		ImageView box = new ImageView(cont);
+		box.setImageResource(R.drawable.o_fridge_en);
+		LayoutParams param = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		param.width = size;
+		param.height = size;
+		param.leftMargin = 403;
+		param.topMargin = 103;
+		myLayout.addView(box, param);
+		box.setAlpha(128);
 		ImageConvert converter = new ImageConvert();
 		win = 1;
-		box = new ImageView(cont);
-		box.setId(1);
+		ImageView boxArr[] = new ImageView[4];
 		imageArr = new ImageView[4];
-		RelativeLayout.LayoutParams boxParam = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		boxParam.width = size;
-		boxParam.height = size;
-        RelativeLayout.LayoutParams objParam[] = new RelativeLayout.LayoutParams[4];
+		RelativeLayout.LayoutParams boxParam[] = new RelativeLayout.LayoutParams[4];
+		RelativeLayout.LayoutParams objParam[] = new RelativeLayout.LayoutParams[4];
     	int insty = 100;
     	int instx = 200;
         for (int i=0; i<4; i++)
         {
         	objParam[i] = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-            
+            boxParam[i] = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         	
-        	//if (i == 2)
-        	//{
-        	//	insty =(int) (insty + size / 4 + 5);
-        	//	instx = 200;
-        	//}
+            boxArr[i] = new ImageView(cont);
+            boxArr[i].setId((i+1)*10);
+            //boxArr[i].setBackgroundColor(Color.BLACK);
+        	myLayout.addView(boxArr[i],boxParam[i]);
+        	
+        	if (i == 2)
+        	{
+        		insty = 100;
+        		instx = 200;
+        	}
         	
         	objParam[i].width = size;
         	objParam[i].height = size;
@@ -50,14 +62,36 @@ public class Puzzle extends GameSpace {
         	objParam[i].topMargin = insty;
         	
         	imageArr[i] = new ImageView(cont);
-        	imageArr[i].setId(i+2);
         	imageArr[i] = converter.startConvert(R.drawable.o_fridge_en, i);
+        	imageArr[i].setId(i+1);
         	myLayout.addView(imageArr[i],objParam[i]);
         	imageArr[i].setOnTouchListener(puzzleListener);
         	
-        	//instx =(int) (instx + size / 4 + 5);
+        	instx =(int) (instx + size / 4 + 5);
         	
         }
+        
+        objParam[0].width = (int) (size*0.585)+1;
+        objParam[0].height = (int) (size*0.515)+1;
+        objParam[1].width = (int) (size*0.515)+1;
+        objParam[1].height = (int) (size*0.615)+1;
+        objParam[2].width = (int) (size*0.605)+1;
+        objParam[2].height = (int) (size*0.485)+1;
+        objParam[3].width = (int) (size*0.485)+1;
+        objParam[3].height = (int) (size*0.58)+1;
+        for(int i =0; i<4; i++)
+        {
+        	boxParam[i].width = objParam[i].width;
+        	boxParam[i].height = objParam[i].height;
+        }
+        boxParam[0].topMargin = 100;
+        boxParam[0].leftMargin = 400;
+        boxParam[1].topMargin = 100;
+        boxParam[1].leftMargin = boxParam[0].leftMargin+size-boxParam[1].width;
+        boxParam[2].topMargin = boxParam[0].topMargin+size-boxParam[2].height;
+        boxParam[2].leftMargin = boxParam[0].leftMargin+size-boxParam[2].width;
+        boxParam[3].leftMargin = boxParam[0].leftMargin;
+        boxParam[3].topMargin = boxParam[0].topMargin+size-boxParam[3].height; 
         
         GameSpace.setHeader("Собери пазл");
         myLayout.startAnimation(animin);
@@ -76,6 +110,7 @@ public class Puzzle extends GameSpace {
 			switch(event.getAction())
 		      {
 		      case MotionEvent.ACTION_DOWN:
+		    	  Log.v("ID", String.valueOf(v.getId()));
 		    	  changeCordsX = (int) event.getRawX();
 		    	  changeCordsY = (int) event.getRawY();
 		    	  pointerId = event.getPointerId(0);
@@ -86,6 +121,7 @@ public class Puzzle extends GameSpace {
 		    	  y0 = (int)(event.getRawY()) - v.getTop() - (int)(event.getY());
 		    	  x_in = (int) event.getX();
 		    	  y_in = (int) event.getY();
+		    	  localBox = (ImageView) myLayout.findViewById(v.getId()*10);
 		    	  Log.v("down", String.valueOf(x_in)+" "+String.valueOf(y_in));
 		    	  v.bringToFront();
 		    	  break;
@@ -99,10 +135,10 @@ public class Puzzle extends GameSpace {
 		    		 y_cord = (int)event.getRawY()-y0;
 		    		 x_cord-=x_in;
 		    		 y_cord-=y_in;
-		    		 //if (!((x_cord+half>box.getLeft())&&(x_cord+half<box.getRight())&&(y_cord+half>box.getTop())&&(y_cord+half<box.getBottom())))
-		    		 //	 box.setBackgroundColor(clr[v.getId()-1]);
+		    		 //if (!((x_cord+half>localBox.getLeft())&&(x_cord+half<localBox.getRight())&&(y_cord+half>localBox.getTop())&&(y_cord+half<localBox.getBottom())))
+		    		 //	 localBox.setBackgroundColor(clr[v.getId()-1]);
 		    		 //else
-		    		 //box.setBackgroundColor(Color.RED);
+		    		 //localBox.setBackgroundColor(Color.RED);
 		    		 if (x_cord<x0)
 		    			 x_cord = x0;
 		    		 if (x_cord+(int)(v.getWidth())>myLayout.getWidth())
@@ -113,7 +149,7 @@ public class Puzzle extends GameSpace {
 		    			 y_cord = myLayout.getHeight()-v.getHeight();
 		    		 lp.leftMargin = x_cord;
 		    		 lp.topMargin = y_cord;
-		    		 
+
 		    		 v.setLayoutParams(lp);
 		    		 v.invalidate();
 		    		 v.bringToFront();
@@ -121,21 +157,21 @@ public class Puzzle extends GameSpace {
 		    	  }
 		          break;
 		      case MotionEvent.ACTION_POINTER_UP:
-		    	  if ((v.getId()-win == 1)&&(event.getPointerId(event.getActionIndex()) == pointerId)&&(changeCordsX!=(int) event.getRawX())&&(changeCordsY!=(int) event.getRawY()))
+		    	  if ((event.getPointerId(event.getActionIndex()) == pointerId)&&(changeCordsX!=(int) event.getRawX())&&(changeCordsY!=(int) event.getRawY()))
 		    	  {
 		    		  pointerId = 999;  
 			    	  drag = false;
-		    		  Log.v("Animation", String.valueOf(box.getLeft()+" "+String.valueOf(box.getTop())));
+		    		  Log.v("Animation", String.valueOf(localBox.getLeft()+" "+String.valueOf(localBox.getTop())));
 		    		  Log.v("Animation", String.valueOf(event.getRawX()-x_in-x0)+" "+ String.valueOf(event.getRawY()-y_in-y0));
-		    		  Log.v("Bug", String.valueOf(box.getLeft()-event.getRawX()+x_in+x0)+" "+String.valueOf(box.getTop()-event.getRawY()+y_in+y0));
-			    	  if ((x_cord+half>box.getLeft())&&(x_cord+half<box.getRight())&&(y_cord+half>box.getTop())&&(y_cord+half<box.getBottom()))
+		    		  Log.v("Bug", String.valueOf(localBox.getLeft()-event.getRawX()+x_in+x0)+" "+String.valueOf(localBox.getTop()-event.getRawY()+y_in+y0));
+			    	  if ((x_cord+half>localBox.getLeft())&&(x_cord+half<localBox.getRight())&&(y_cord+half>localBox.getTop())&&(y_cord+half<localBox.getBottom()))
 			    	  {
 			    		  x = true;
 			    		  localparams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			    		  localparams = (LayoutParams) v.getLayoutParams();
-			    		  localparams.leftMargin = (int) (box.getLeft())+5;
-			    		  localparams.topMargin = (int) (box.getTop())+5;
-			    		  transAnim = new TranslateAnimation(0, box.getLeft()-x_cord+5, 0, box.getTop()-y_cord+5);
+			    		  localparams.leftMargin = (int) (localBox.getLeft())+5;
+			    		  localparams.topMargin = (int) (localBox.getTop())+5;
+			    		  transAnim = new TranslateAnimation(0, localBox.getLeft()-x_cord+5, 0, localBox.getTop()-y_cord+5);
 			    		  transAnim.setDuration(200);
 			    		  transAnim.setFillEnabled(true);
 			    		  hiding = v.getId();
@@ -145,26 +181,25 @@ public class Puzzle extends GameSpace {
 			    		  transAnim = null;
 			    		  v.setOnTouchListener(null);
 			    		  imageArr[v.getId()-1] = new ImageView(cont);
-			    		  win++;
 			    	  }
 		    	  }
 		    	  break;
 		      case MotionEvent.ACTION_UP:
-		    	  if ((v.getId()-win == 1)&&(event.getPointerId(event.getActionIndex()) == pointerId)&&(changeCordsX!=(int) event.getRawX())&&(changeCordsY!=(int) event.getRawY()))
+		    	  if ((event.getPointerId(event.getActionIndex()) == pointerId)&&(changeCordsX!=(int) event.getRawX())&&(changeCordsY!=(int) event.getRawY()))
 		    	  {
 		    	  pointerId = 999;  
 		    	  drag = false;
-	    		  Log.v("Animation", String.valueOf(box.getLeft()+" "+String.valueOf(box.getTop())));
+	    		  Log.v("Animation", String.valueOf(localBox.getLeft()+" "+String.valueOf(localBox.getTop())));
 	    		  Log.v("Animation", String.valueOf(event.getRawX()-x_in-x0)+" "+ String.valueOf(event.getRawY()-y_in-y0));
-	    		  Log.v("Bug", String.valueOf(box.getLeft()-event.getRawX()+x_in+x0)+" "+String.valueOf(box.getTop()-event.getRawY()+y_in+y0));
-		    	  if ((x_cord+half>box.getLeft())&&(x_cord+half<box.getRight())&&(y_cord+half>box.getTop())&&(y_cord+half<box.getBottom()))
+	    		  Log.v("Bug", String.valueOf(localBox.getLeft()-event.getRawX()+x_in+x0)+" "+String.valueOf(localBox.getTop()-event.getRawY()+y_in+y0));
+		    	  if ((x_cord+half>localBox.getLeft())&&(x_cord+half<localBox.getRight())&&(y_cord+half>localBox.getTop())&&(y_cord+half<localBox.getBottom()))
 		    	  {
 		    		  x = true;
 		    		  localparams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		    		  localparams = (LayoutParams) v.getLayoutParams();
-		    		  localparams.leftMargin = (int) (box.getLeft())+5;
-		    		  localparams.topMargin = (int) (box.getTop())+5;
-		    		  transAnim = new TranslateAnimation(0, box.getLeft()-x_cord+5, 0, box.getTop()-y_cord+5);
+		    		  localparams.leftMargin = (int) (localBox.getLeft())+5;
+		    		  localparams.topMargin = (int) (localBox.getTop())+5;
+		    		  transAnim = new TranslateAnimation(0, localBox.getLeft()-x_cord+5, 0, localBox.getTop()-y_cord+5);
 		    		  transAnim.setDuration(200);
 		    		  transAnim.setFillEnabled(true);
 		    		  hiding = v.getId();
@@ -174,7 +209,7 @@ public class Puzzle extends GameSpace {
 		    		  transAnim = null;
 		    		  v.setOnTouchListener(null);
 		    		  imageArr[v.getId()-1] = new ImageView(cont);
-		    		  win++;
+		    		  
 		    	  }
 		    	  }
 		    	  break;
@@ -183,7 +218,6 @@ public class Puzzle extends GameSpace {
 			}
 			return true;
 		}
- 	
  };
  
  final AnimationListener animListener = new AnimationListener(){

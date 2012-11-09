@@ -18,6 +18,7 @@ public class Shape extends GameSpace {
 
 	public void startGame()
 	{
+		size = 100;
 		RelativeLayout.LayoutParams objParam[] = new RelativeLayout.LayoutParams[6];
         imageArr = new ImageView[6];
         

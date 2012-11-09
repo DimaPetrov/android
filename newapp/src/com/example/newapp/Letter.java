@@ -118,6 +118,8 @@ ModImageView[] collect;
 			if (v.getId() == 0x666)
 			{
 				Animation anim = AnimationUtils.loadAnimation(cont, R.anim.shapewin);
+				anim.setRepeatCount(3);
+   				anim.setRepeatMode(Animation.REVERSE);
    				anim.setAnimationListener(new AnimationListener(){
 
 					public void onAnimationEnd(Animation animation) {

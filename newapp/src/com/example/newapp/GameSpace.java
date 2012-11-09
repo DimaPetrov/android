@@ -80,7 +80,7 @@ public class GameSpace extends Activity {
 			anim1 = AnimationUtils.loadAnimation(this, R.anim.slide_left_in);
 			nText = (TextView) findViewById(R.id.ntext);
 	        layouts();
-	        Size size = new Size();
+	        Shape size = new Shape();
 	        size.startGame();
 	       
 	   }
@@ -111,7 +111,7 @@ public class GameSpace extends Activity {
 	{
 		myLayout.startAnimation(alphaanim);
 		Random r = new Random();
-		gameCounting = 8;
+		gameCounting ++;
 		number++;
 		anim.setAnimationListener(new AnimationListener(){
 			

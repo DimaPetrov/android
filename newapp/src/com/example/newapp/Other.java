@@ -61,6 +61,7 @@ public class Other extends GameSpace{
 	OnClickListener otherListener = new OnClickListener() {
 	       public void onClick(final View v) 
 	       {
+	    	   v.setOnClickListener(null);
 	    	   Log.v("Touch", String.valueOf(v.getId()));
 	    	   	if (v.getId() == 0x666)
 	   			{	

@@ -11,7 +11,8 @@ public class ImageConvert extends GameSpace{
 	Bitmap instImage, resImage;
 	Bitmap[] asset = new Bitmap[4];
 	ImageView result;
-	int size = 576;
+	int size = 300;
+	int nWidth, nHeight;
 	
 	public ImageConvert()
 	{
@@ -25,22 +26,72 @@ public class ImageConvert extends GameSpace{
 	
 	public ImageView startConvert(int link, int number)
 	{
-		instImage = BitmapFactory.decodeResource(cont.getResources(), link);
+		instImage = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(cont.getResources(), link), size, size, false);
 		
 		int transColor = asset[0].getPixel(10, 10);
 		int darkColor = asset[0].getPixel(size-10, size-10);
 		Log.v("DarkColor", String.valueOf(darkColor));
 		Log.v("TransColor", String.valueOf(transColor));
 		Log.v("PUZZLE", String.valueOf(instImage.getWidth()) + " " + instImage.getHeight());
-		resImage = Bitmap.createBitmap(instImage.getWidth(), instImage.getHeight(), Bitmap.Config.ARGB_8888);
-		for (int i = 1; i<instImage.getWidth()-1; i++)
-			for(int j = 1; j<instImage.getHeight()-1; j++)
+		
+		if (number == 0)
+		{
+			nWidth = (int) (size*0.585)+1;
+			nHeight = (int) (size*0.515)+1;
+			resImage = Bitmap.createBitmap(nWidth, nHeight, Bitmap.Config.ARGB_8888);
+		for (int i = 1; i<(int) (instImage.getWidth()*0.585); i++)
+			for(int j = 1; j<(int) (instImage.getHeight()*0.515); j++)
 			{
 				if (asset[number].getPixel(i, j) == darkColor)
 					resImage.setPixel(i, j, Color.TRANSPARENT);
 				else
 					resImage.setPixel(i, j, instImage.getPixel(i, j));
 			}
+		
+		}
+		if (number == 1)
+		{
+			nWidth = (int) (size*0.515)+1;
+			nHeight = (int) (size*0.615)+1;
+			resImage = Bitmap.createBitmap(nWidth, nHeight, Bitmap.Config.ARGB_8888);
+			for (int i = (int) (instImage.getWidth()*0.485); i<instImage.getWidth(); i++)
+				for(int j = 1; j<(int) (instImage.getHeight()*0.615); j++)
+				{
+					if (asset[number].getPixel(i, j) == darkColor)
+						resImage.setPixel((int) (i-size*0.485), j, Color.TRANSPARENT);
+					else
+						resImage.setPixel((int) (i-size*0.485), j, instImage.getPixel(i, j));
+				}
+		}
+		if (number == 2)
+		{
+			nWidth = (int) (size*0.605)+1;
+			nHeight = (int) (size*0.485)+1;
+			resImage = Bitmap.createBitmap(nWidth, nHeight, Bitmap.Config.ARGB_8888);
+			for (int i = (int) (instImage.getWidth()*0.395); i<instImage.getWidth(); i++)
+				for(int j = (int) (instImage.getHeight()*0.515); j<instImage.getHeight(); j++)
+				{
+					if (asset[number].getPixel(i, j) == darkColor)
+						resImage.setPixel((int) (i-size*0.395), (int) (j-size*0.515), Color.TRANSPARENT);
+					else
+						resImage.setPixel((int) (i-size*0.395), (int) (j-size*0.515), instImage.getPixel(i, j));
+				}
+		}
+		if (number == 3)
+		{
+			nWidth = (int) (size*0.485)+1;
+			nHeight = (int) (size*0.58)+1;
+			resImage = Bitmap.createBitmap(nWidth, nHeight, Bitmap.Config.ARGB_8888);
+			for (int i = 1; i<(int) (instImage.getWidth()*0.485); i++)
+				for(int j = (int) (instImage.getHeight()*0.42); j<instImage.getHeight(); j++)
+				{
+					if (asset[number].getPixel(i, j) == darkColor)
+						resImage.setPixel(i, (int) (j-size*0.42), Color.TRANSPARENT);
+					else
+						resImage.setPixel(i, (int) (j-size*0.42), instImage.getPixel(i, j));
+				}
+		}
+		
 		result = new ImageView(cont);
 		result.setImageBitmap(resImage);
 		return (result);
