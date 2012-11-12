@@ -73,6 +73,7 @@ public final class R {
         public static final int p_games_shapesquare=0x7f020031;
         public static final int p_games_shapestar=0x7f020032;
         public static final int p_games_shapetriangle=0x7f020033;
+        public static final int p_games_sortslots=0x7f020034;
     }
     public static final class id {
         public static final int backLay1=0x7f080004;

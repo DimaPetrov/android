@@ -61,6 +61,7 @@ public class GameSpace extends Activity {
 	        display = getWindowManager().getDefaultDisplay();
 	        dx = (display.getWidth()/800);
 	        dy = (display.getHeight()/480);
+	        obj_count = 2;
 	        if (dx>dy)
 	        	d = dy;
 	        else
@@ -80,11 +81,19 @@ public class GameSpace extends Activity {
 			anim1 = AnimationUtils.loadAnimation(this, R.anim.slide_left_in);
 			nText = (TextView) findViewById(R.id.ntext);
 	        layouts();
-	        Shape size = new Shape();
+	        Count size = new Count();
 	        size.startGame();
 	       
 	   }
 	
+	
+	public static int min(int x, int y)
+	{
+		if (x>y)
+			return(y);
+		else 
+			return(x);
+	}
 	
 	public static void setHeader(String s)
 	{
@@ -102,7 +111,7 @@ public class GameSpace extends Activity {
 		nText.setTypeface(type);
 		nText.setTextColor(Color.rgb(0xFF, 0xFF, 0xFF));
 		nText.setShadowLayer(4, 0, 4, Color.rgb(0x66, 0x33, 0x33));
-		nText.setTextSize(30);
+		nText.setTextSize(50);
 		nText.setText("");
 	}
 	
@@ -111,7 +120,7 @@ public class GameSpace extends Activity {
 	{
 		myLayout.startAnimation(alphaanim);
 		Random r = new Random();
-		gameCounting ++;
+		gameCounting = 1;
 		number++;
 		anim.setAnimationListener(new AnimationListener(){
 			

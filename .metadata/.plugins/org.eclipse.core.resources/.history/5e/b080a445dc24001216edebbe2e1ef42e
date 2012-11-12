@@ -1,9 +1,0 @@
-package com.example.newapp;
-
-import android.widget.ImageView;
-
-public class ModImageView {
-
-	ImageView image;
-	String color;
-}
