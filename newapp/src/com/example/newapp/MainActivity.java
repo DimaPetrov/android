@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected void onResume() {
 	    super.onResume();
 	    Log.d("LIFECYCLE", "MainActivity: onResume()");
-	    myLayout.setBackgroundResource(R.drawable.bg_games_test);
+	    myLayout.setBackgroundResource(R.drawable.bg_games1);
 	  }
 
 }

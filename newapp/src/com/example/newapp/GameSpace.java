@@ -50,31 +50,45 @@ public class GameSpace extends Activity {
         static public boolean isFirstImage[] = new boolean[50];
         static public Chronometer myChronometer;
         static public Typeface type; 
-        static public float dx, dy, d;
-		
+        static public double dx = 0, dy = 0, d;
+		static public int headerHeight, rabbitWidth;
+		static public int w,h;
+		static public ImageView[] allPict= new ImageView[40];
+        
 	@Override 
 	    public void onCreate(Bundle savedInstanceState) {
 			cont = this;
 			type = Typeface.createFromAsset(this.getAssets(), "fonts/font.ttf");
 	        super.onCreate(savedInstanceState);
+	        int j=0;
 	        setContentView(R.layout.game_space);
 	        display = getWindowManager().getDefaultDisplay();
-	        dx = (display.getWidth()/800);
-	        dy = (display.getHeight()/480);
+	        float scale = cont.getResources().getDisplayMetrics().density;
+	        for (int i = R.drawable.o_album_en; i< R.drawable.o_album_en+15; i++)
+	        {
+	        	allPict[j] = new ImageView(cont);
+	        	allPict[j].setBackgroundResource(i);
+	        	j++;
+	        	Log.v("HUI", String.valueOf(i)+" "+String.valueOf(j));
+	        }
+	        Log.v("SCALE",String.valueOf(scale));
+	        Log.v("Display", String.valueOf(w)+" "+String.valueOf(h));
 	        obj_count = 2;
 	        if (dx>dy)
 	        	d = dy;
 	        else
 	        	d = dx;
-	        Log.v("Display", String.valueOf(display.getWidth())+" "+String.valueOf(display.getHeight()));
+	        Log.v("Display", String.valueOf(dx)+" "+String.valueOf(dy));
 	        rabbit = (ImageView) findViewById(R.id.imageView1);
 	        notif = (ImageView) findViewById(R.id.imageView2);
+	        /*
 	        LayoutParams rabbitParams = (LayoutParams) rabbit.getLayoutParams();
-	        rabbitParams.width = (int) (rabbitParams.width * d);
-	        rabbitParams.height = (int) (rabbitParams.height * d);
-	        
-	        
-	        
+	        rabbitParams.width = (int) (rabbitParams.width * scale);
+	        rabbitParams.height = (int) (rabbitParams.height * scale);
+	        */
+	        rabbitWidth = notif.getLayoutParams().width;
+	        Log.v("Rabbit", String.valueOf(rabbitWidth));
+	        headerHeight = 30;
 	        animin = AnimationUtils.loadAnimation(this, R.anim.alphaanimin);
 	        alphaanim = AnimationUtils.loadAnimation(this, R.anim.alphanimout);
 	        anim = AnimationUtils.loadAnimation(this, R.anim.slide_left_out);

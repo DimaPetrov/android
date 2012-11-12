@@ -23,9 +23,10 @@
 <fullyQualifiedTypeName name="com.example.newapp.R.id"/>
 <fullyQualifiedTypeName name="android.view.Gravity"/>
 <fullyQualifiedTypeName name="com.example.newapp.R.anim"/>
-<fullyQualifiedTypeName name="com.example.newapp.R.drawable"/>
 <fullyQualifiedTypeName name="android.graphics.BitmapFactory.Options"/>
 <fullyQualifiedTypeName name="android.graphics.Color"/>
 <fullyQualifiedTypeName name="android.view.Display"/>
 <fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="java.lang.String"/>
+<fullyQualifiedTypeName name="com.example.newapp.R.drawable"/>
 </qualifiedTypeNameHistroy>

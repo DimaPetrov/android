@@ -32,6 +32,9 @@ public class Count extends GameSpace{
 		GameSpace.setHeader("Сосчитай предметы касаниями");
 		Random r = new Random();
         obj_count ++;
+        if (obj_count == 10)
+        	obj_count = 3;
+        
         LayoutParams countParam = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         countParam.leftMargin = notif.getLeft();
         countParam.topMargin = notif.getTop();
@@ -40,46 +43,89 @@ public class Count extends GameSpace{
         RelativeLayout.LayoutParams objParam[] = new RelativeLayout.LayoutParams[obj_count];
         imageArr = new ImageView[obj_count];
         
-        int collect[] = new int[20];
+        int collect[] = new int[15];
         collect[0] = R.drawable.o_album_en;
-        for(int i =1; i<20; i++)
+        for(int i =1; i<15; i++)
         	collect[i] = collect[i-1] +1;
         
         display = cont.getWindowManager().getDefaultDisplay();
-        int workWidth = display.getWidth() - rabbit.getWidth();
-        int workHeight = (int) (display.getHeight() - header.getTextSize());
+        int workWidth = display.getWidth() - rabbitWidth;
+        int workHeight = (int) (display.getHeight() - headerHeight);
         
-        int border = 0;
+        int border1 = 0;
+        int border2 = 0;
+        int thirdStrBorder = 0;
         int secondStrBorder = 0;
         int localSize = size;
         
-        Log.v("WorkSize", String.valueOf(rabbit.getWidth()));
-        Log.v("WorkSize", String.valueOf(header.getTextSize()));
+        Log.v("WorkSize", String.valueOf(workWidth));
+        Log.v("WorkSize", String.valueOf(workHeight));
         Log.v("Obj_count", String.valueOf(obj_count));
         
-        int instx = rabbit.getWidth(), insty = (int) header.getTextSize();
+        int instx = rabbitWidth, insty = (int) headerHeight;
         int inst = 0;
-        
+        int minParam = min(workWidth, workHeight);
         switch (obj_count)
         {
         	case 3:
-        		localSize = (int) (min(workWidth, workHeight) / 3);
-        		border = 4;
-        		inst = (int) rabbit.getWidth() +((workWidth - 3*localSize - 2*5)/2);
-        		insty = (int) (header.getTextSize() + (workHeight-localSize)/2);
+        		localSize = (int) (minParam / 3);
+        		border1 = 10;
+        		border2 = 10;
+        		inst = (int) rabbitWidth +((workWidth - 3*localSize - 2*5)/2);
+        		insty = (int) (headerHeight + (workHeight-localSize)/2);
         		break;
         	case 4:
-        		localSize = (int) (min(workWidth, workHeight) / 2);
-        		border = 2;
-        		inst = (int) rabbit.getWidth() + ((workWidth - 2*localSize - 5)/2);
-        		insty = (int) (header.getTextSize() + (workHeight-2*localSize)/2);
+        		localSize = (int) (minParam / 3);
+        		border1 = 2;
+        		border2 = 10;
+        		inst = (int) rabbitWidth + ((workWidth - 2*localSize - 5)/2);
+        		insty = (int) (headerHeight + (workHeight-2*localSize)/2);
+        		secondStrBorder = inst;
         		break;
         	case 5:
-        		localSize = (int) (min(workWidth, workHeight) / 3);
-        		border = 3;
-        		inst = (int) rabbit.getWidth() +((workWidth - 3*localSize - 2*5)/2);
-        		insty = (int) (header.getTextSize() + (workHeight-2*localSize)/2);
+        		localSize = (int) (minParam / 3);
+        		border1 = 3;
+        		border2 = 10;
+        		inst = (int) rabbitWidth +((workWidth - 3*localSize - 2*5)/2);
+        		insty = (int) (headerHeight + (workHeight-2*localSize)/2);
+        		secondStrBorder = (int) rabbitWidth +((workWidth - 2*localSize - 1*5)/2);
         		break;
+        	case 6:
+        		localSize = (int) (minParam / 3);
+        		border1 = 3;
+        		border2 = 10;
+        		inst = (int) rabbitWidth +((workWidth - 3*localSize - 2*5)/2);
+        		insty = (int) (headerHeight + (workHeight-2*localSize)/2);
+        		secondStrBorder = inst;
+        		break;
+        	case 7:
+        		localSize = (int) (minParam / 4);
+        		border1 = 2;
+        		border2 = 5;
+        		inst = (int) rabbitWidth +((workWidth - 2*localSize - 1*5)/2);
+        		secondStrBorder = (int) rabbitWidth +((workWidth - 3*localSize - 2*5)/2);
+        		thirdStrBorder = inst;
+        		insty = (int) (headerHeight + (workHeight-3*localSize)/2);
+        		break;
+        	case 8:
+        		localSize = (int) (minParam / 4);
+        		border1 = 3;
+        		border2 = 5;
+        		inst = (int) rabbitWidth +((workWidth - 3*localSize - 2*5)/2);
+        		secondStrBorder = (int) rabbitWidth +((workWidth - 2*localSize - 1*5)/2);
+        		thirdStrBorder = inst;
+        		insty = (int) (headerHeight + (workHeight-3*localSize)/2);
+        		break;
+        	case 9:
+        		localSize = (int) (minParam / 4);
+        		border1 = 3;
+        		border2 = 6;
+        		inst = (int) rabbitWidth +((workWidth - 3*localSize - 2*5)/2);
+        		secondStrBorder = (int) rabbitWidth +((workWidth - 3*localSize - 2*5)/2);
+        		thirdStrBorder = inst;
+        		insty = (int) (headerHeight + (workHeight-3*localSize)/2);
+        		break;
+        		
         }
         
         Log.v("INST", String.valueOf(inst-rabbit.getWidth()));
@@ -87,11 +133,17 @@ public class Count extends GameSpace{
         instx = inst;
         for (int i=0; i<obj_count; i++)
         {	
-        	if (i == border)
+        	if (i == border1)
         	{
-        		instx = inst;
+        		instx = secondStrBorder;
         		insty += localSize;
         	}
+        	if (i == border2)
+        	{
+        		instx = thirdStrBorder;
+        		insty += localSize;
+        	}
+        	Log.v("W,H",String.valueOf(instx)+" "+String.valueOf(insty));
         	objParam[i] = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         	objParam[i].width = localSize;
             objParam[i].height = localSize;
@@ -99,10 +151,12 @@ public class Count extends GameSpace{
         	objParam[i].topMargin = insty;
         	imageArr[i] = new ImageView(cont);
         	r = new Random();
-        	int q = r.nextInt(20);
+        	int q = r.nextInt(15);
+        	
         	while (collect[q]==0)
-        		q = r.nextInt(20);
-        	imageArr[i].setBackgroundResource(collect[q]);
+        		q = r.nextInt(15);
+        		
+        	imageArr[i] = allPict[q];
         	collect[q] = 0;
         	imageArr[i].setId(i+1);
         	myLayout.addView(imageArr[i],objParam[i]);
@@ -120,7 +174,7 @@ public class Count extends GameSpace{
 				Random clId = new Random();
 				v.setOnClickListener(null);
 				Animation anim = AnimationUtils.loadAnimation(cont, R.anim.alphanimout);
-				anim.setDuration(500);
+				anim.setDuration(200);
    				anim.setAnimationListener(new AnimationListener(){
 
 					public void onAnimationEnd(Animation animation) {
